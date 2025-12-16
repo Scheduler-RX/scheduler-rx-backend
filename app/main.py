@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app.routers import admin
 
 app = FastAPI(title="SchedulerRX API")
 
@@ -16,6 +17,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.router.include_router(admin.router, prefix="/api/v1", tags=["admin"])
 
 @app.get("/")
 def read_root():
