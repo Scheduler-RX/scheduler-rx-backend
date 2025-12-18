@@ -20,6 +20,7 @@ app.add_middleware(
 
 app.router.include_router(admin.router, prefix="/api/v1", tags=["admin"])
 
+
 @app.get("/")
 def read_root():
     return {"message": "Welcome to SchedulerRX API"}

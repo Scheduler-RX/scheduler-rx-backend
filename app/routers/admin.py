@@ -35,6 +35,11 @@ def create_program(account_id: int, program: schemas.ProgramCreate, db: Session 
     db.add(db_program)
     db.commit()
     db.refresh(db_program)
+
+    admin_link = models.ProgramAdmin(user_id=1, program_id=db_program.id)  # user_id to be set later
+    db.add(admin_link)
+    db.commit()
+
     return db_program
 
 # --- Get Programs (Optional Helper) ---
