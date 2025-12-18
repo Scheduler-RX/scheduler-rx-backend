@@ -8,16 +8,25 @@ class UserRole(str, enum.Enum):
     PROGRAM_ADMIN = "program_admin"
     RESIDENT = "resident"
 
+class ProgramAdmin(Base):
+    __tablename__ = "program_admins"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    program_id = Column(Integer, ForeignKey("programs.id"))
+
 class Account(Base):
     __tablename__ = "accounts"
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
+    name = Column(String, unique=True, index=True)
     programs = relationship("Program", back_populates="account")
 
 class Program(Base):
     __tablename__ = "programs"
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
+    num_residents_per_class = Column(Integer, default=10)
+    program_length_years = Column(Integer, default=3)
+    blocks_per_year = Column(Integer, default=13)
     account_id = Column(Integer, ForeignKey("accounts.id"))
     account = relationship("Account", back_populates="programs")
     users = relationship("User", back_populates="program")
